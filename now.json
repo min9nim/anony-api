@@ -1,0 +1,21 @@
+{
+  "public": true,
+  "version": 2,
+  "builds": [{ "src": "src/**/*.js", "use": "@now/node@canary" }],
+  "routes": [
+    {
+      "src": "/.*",
+      "dest": "src/index.js",
+      "methods": ["POST", "OPTIONS", "GET", "DELETE", "PUT"],
+      "headers": {
+        "Access-Control-Allow-Origin": "*"
+      }
+    }
+  ],
+  "github": {
+    "autoJobCancelation": false
+  },
+  "env": {
+    "dburl": "@anony-dburl"
+  }
+}
