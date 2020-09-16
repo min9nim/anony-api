@@ -312,10 +312,10 @@ get['/remove/:key/:uuid'] = (req, res) => {
         return
       }
 
-      Comment.remove({ postKey: req.params.key })
+      Comment.findOneAndRemove({ postKey: req.params.key })
         .then(output => {
           //console.log(output);
-          return Post.remove({
+          return Post.findOneAndRemove({
             $or: [{ key: req.params.key }, { origin: req.params.key }],
           })
         })

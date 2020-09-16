@@ -148,7 +148,7 @@ get['/remove/:key/:uuid'] = (req, res) => {
     .then((comment) => {
       console.log('# comments = ' + JSON.stringify(comment, null, 2))
       if (comment.uuid === req.params.uuid) {
-        Comment.remove({ key: req.params.key }).then((output) => {
+        Comment.findOneAndRemove({ key: req.params.key }).then((output) => {
           // 댓글 카운트 set
           setPostCommentCnt(comment.postKey)
 
