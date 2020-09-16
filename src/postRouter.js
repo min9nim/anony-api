@@ -54,6 +54,7 @@ function maskPost(post, uuid) {
 
 // 신규 post 등록
 post['/add'] = (req, res) => {
+  console.log('dburl:' + process.env.dburl)
   console.log('received data = ' + JSON.stringify(req.body, null, 2))
   var post = new Post()
   Object.assign(post, req.body, { createdDate: Date.now() })
