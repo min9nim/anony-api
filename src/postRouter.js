@@ -296,35 +296,37 @@ get['/remove/:key/:uuid'] = (req, res) => {
   Post.findOne({ key: req.params.key })
     .then(post => {
       console.log(`# valid-remove-url = /remove/${post.key}/${post.uuid}`)
-      if (post.uuid === req.params.uuid) {
-        if (post.commentCnt) {
-          res.send({
-            status: 'Fail',
-            message: `post(${req.params.key}) has comments`,
-          })
-        } else {
-          Comment.remove({ postKey: req.params.key })
-            .then(output => {
-              //console.log(output);
-              return Post.remove({
-                $or: [{ key: req.params.key }, { origin: req.params.key }],
-              })
-            })
-            .then(output => {
-              //console.log(output);
-              res.send({
-                status: 'Success',
-                message: `post(${req.params.key}) is removed`,
-                output,
-              })
-            })
-        }
-      } else {
+      if (post.uuid !== req.params.uuid) {
         res.send({
           status: 'Fail',
           message: 'Not authorized',
         })
+        return
       }
+
+      if (post.commentCnt) {
+        res.send({
+          status: 'Fail',
+          message: `post(${req.params.key}) has comments`,
+        })
+        return
+      }
+
+      Comment.remove({ postKey: req.params.key })
+        .then(output => {
+          //console.log(output);
+          return Post.remove({
+            $or: [{ key: req.params.key }, { origin: req.params.key }],
+          })
+        })
+        .then(output => {
+          //console.log(output);
+          res.send({
+            status: 'Success',
+            message: `post(${req.params.key}) is removed`,
+            output,
+          })
+        })
     })
     .catch(sendErr(res))
 }
