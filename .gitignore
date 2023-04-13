@@ -9,3 +9,4 @@ prod-start.sh
 .now
 .DS_Store
 public/docs/*.html
+.yarn-error.log
